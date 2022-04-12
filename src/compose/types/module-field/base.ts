@@ -13,6 +13,7 @@ export interface Capabilities {
   writable: boolean;
   required: boolean;
   private: boolean;
+  sensitive: boolean;
 }
 
 export interface Options {
@@ -71,6 +72,7 @@ export class ModuleField {
 
   public isRequired = false
   public isPrivate = false
+  public isSensitive = false
   public isMulti = false
   public isSystem = false
   public isSortable = true
@@ -100,12 +102,13 @@ export class ModuleField {
     Apply(this, f, CortezaID, 'fieldID')
     Apply(this, f, String, 'name', 'label', 'kind')
     Apply(this, f, Number, 'maxLength')
-    Apply(this, f, Boolean, 'isRequired', 'isPrivate', 'isMulti', 'isSystem')
+    Apply(this, f, Boolean, 'isRequired', 'isSensitive', 'isPrivate', 'isMulti', 'isSystem')
 
     // Make sure field is align with it's capabilities
     if (!this.cap.multi) this.isMulti = false
     if (!this.cap.required) this.isRequired = false
     if (!this.cap.private) this.isPrivate = false
+    if (!this.cap.sensitive) this.isSensitive = false
 
     // Check if kind sortable
     if (unsortableFieldKinds.includes(this.kind)) {
@@ -161,6 +164,7 @@ export class ModuleField {
       writable: true,
       required: true,
       private: true,
+      sensitive: true,
     }
   }
 
